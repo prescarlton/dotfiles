@@ -1,0 +1,1 @@
+/Users/presto/fig-export/dotfiles/dotfile.fish
