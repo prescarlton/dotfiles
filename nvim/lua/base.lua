@@ -17,7 +17,7 @@ vim.opt.expandtab = true
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:hor20,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor"
 -- random vim opts
 vim.opt.shell = "fish"
-vim.opt.ignorecase = true
+-- vim.opt.ignorecase = true
 vim.opt.path:append({ "**" }) -- according to craftzdog (the goat), this should include subfolders/files in find files??
 vim.opt.wrap = false
 
