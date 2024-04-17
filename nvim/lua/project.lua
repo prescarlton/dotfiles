@@ -1,4 +1,4 @@
 -- config for project.nvim
-local project = require("project_nvim")
+-- local project = require("project_nvim")
 
-project.setup({})
+-- project.setup({})

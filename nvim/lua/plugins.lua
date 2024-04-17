@@ -17,6 +17,7 @@ require("packer").startup(function(use)
   use("rmehri01/onenord.nvim")
   use("navarasu/onedark.nvim")
   use("folke/tokyonight.nvim")
+  use("projekt0n/github-nvim-theme")
 
   use("neovim/nvim-lspconfig")
   -- cmp plugins
@@ -61,16 +62,21 @@ require("packer").startup(function(use)
 
   -- dope comment plugin for keymaps and better comment support.
   -- allegedly is cross-language and "super robust"
+  -- use({
+  --   "numToStr/Comment.nvim",
+  --   config = function()
+  --     require("Comment").setup()
+  --   end,
+  -- })
   use({
-    "numToStr/Comment.nvim",
-    config = function()
-      require("Comment").setup()
-    end,
+    "terrortylor/nvim-comment",
   })
+  -- lets comments work in files that have multiple different languages (i.e. tsx)
+  use("JoosepAlviste/nvim-ts-context-commentstring")
   -- lua LINNNNEEEE (not totally sold yet, this fr fr some vscode simp type stuff)
   use({
     "nvim-lualine/lualine.nvim",
-    requires = { "nvim-tree/nvim-web-devicons", opt = true },
+    -- requires = { "nvim-tree/nvim-web-devicons", opt = true },
   })
 
   -- does some neat stuff with cursors
@@ -82,10 +88,6 @@ require("packer").startup(function(use)
     config = function()
       require("terminal").setup()
     end,
-  })
-  use({
-    "ahmedkhalf/project.nvim",
-    config = function() end,
   })
 
   -- SPOTIFY. IN NVIM.
@@ -122,10 +124,22 @@ require("packer").startup(function(use)
 
   -- (potentially) signatures
   use("ray-x/lsp_signature.nvim")
+
+  -- cool lil dropmenus in topbar
+  use("Bekaboo/dropbar.nvim")
+  use("folke/trouble.nvim")
+  use({
+    "nvim-neorg/neorg",
+    rocks = { "lua-utils.nvim", "nvim-nio", "nui.nvim", "plenary.nvim", "pathlib.nvim" },
+    -- tag = "*", -- Pin Neorg to the latest stable release
+    version = "v7.0.0",
+    config = function()
+      require("neorg").setup()
+    end,
+  })
 end)
 
--- require("tokyonight").setup({})
-require("onedark").load()
+vim.cmd([[colorscheme github_dark]])
 
 -- autotags/autopair config
 local autotag = require("nvim-ts-autotag")
@@ -161,3 +175,7 @@ require("neodev").setup({})
 
 require("rust-tools").setup()
 require("codeium").setup({})
+
+-- menubar (dropbar) config
+require("dropbar").setup({})
+vim.ui.select = require("dropbar.utils.menu").select
