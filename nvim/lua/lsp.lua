@@ -80,6 +80,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 nvim_lsp.cssls.setup({
   capabilities = capabilities,
 })
+
 -- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 --   pattern = { "*.css", "*.scss", "*.sass" },
 --   callback = function()
@@ -89,9 +90,13 @@ nvim_lsp.cssls.setup({
 
 --  css modules support in react
 nvim_lsp.cssmodules_ls.setup({
-  capabilities = {
-    definitionProvider = false,
-  },
+  on_attach = function(client, bufnr)
+    -- avoid accepting 'definitionProvider' responses from this lsp
+    client.server_capabilities.definitionProvider = false
+  end,
+  -- capabilities = {
+  --   definitionProvider = false,
+  -- },
   cmd = { "cssmodules-language-server" },
   filetypes = {
     "javascript",

@@ -4,6 +4,8 @@ if not status then
 end
 local lspkind = require("lspkind")
 
+vim.g.sass_variables_file = "_variables.scss"
+
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -22,15 +24,16 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     -- { name = "nvim_lsp_signature_help" },
-    { name = "codeium" },
+    -- { name = "codeium" },
+    { name = "sass-variables", max_item_count = 3 },
     {
       name = "nvim_lsp",
       entry_filter = function(entry, ctx)
         return cmp.lsp.CompletionItemKind.Text ~= entry:get_kind()
       end,
     },
-    { name = "path",   max_item_count = 1 },
-    { name = "buffer", keyword_length = 4, max_item_count = 1 },
+    { name = "path",           max_item_count = 1 },
+    { name = "buffer",         keyword_length = 4, max_item_count = 1 },
   }),
   formatting = {
     -- format = lspkind.cmp_format({ with_text = false, maxwidth = 50 }),

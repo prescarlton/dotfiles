@@ -133,13 +133,14 @@ require("lazy").setup({
   "simrat39/rust-tools.nvim",
 
   -- comment out in case of AI uprising
-  {
-    "Exafunction/codeium.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
-    },
-  },
+  -- {
+  --   "Exafunction/codeium.nvim",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "hrsh7th/nvim-cmp",
+  --   },
+  -- },
+  "github/copilot.vim",
   -- (potentially) signatures
   "ray-x/lsp_signature.nvim",
 
@@ -176,6 +177,36 @@ require("lazy").setup({
       vim.wo.conceallevel = 2
     end,
   },
+  {
+    "L3MON4D3/LuaSnip",
+    -- follow latest release.
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp",
+  },
+  {
+    "smoka7/multicursors.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "smoka7/hydra.nvim",
+    },
+    opts = {},
+    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
+    keys = {
+      {
+        mode = { "v", "n" },
+        "<Leader>m",
+        "<cmd>MCstart<cr>",
+        desc = "Create a selection for selected text or word under the cursor",
+      },
+    },
+  },
+  {
+    -- perhaps cmp for sass variables
+    "pontusk/cmp-sass-variables",
+  },
+  -- light / dark mode based on system
+  "cormacrelf/dark-notify",
 })
 
 vim.cmd([[colorscheme github_dark]])
@@ -213,8 +244,20 @@ require("terminal").setup({})
 require("neodev").setup({})
 
 require("rust-tools").setup()
-require("codeium").setup({})
+-- require("codeium").setup({})
 
 -- menubar (dropbar) config
 require("dropbar").setup({})
 vim.ui.select = require("dropbar.utils.menu").select
+
+-- dark notify setup
+local dn = require("dark_notify")
+-- Configure
+-- dn.run({
+--   schemes = {
+--     -- you can use a different colorscheme for each
+--     dark = "github_dark",
+--     light = "github_light",
+--   },
+-- })
+-- dn.update()
