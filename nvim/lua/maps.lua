@@ -28,6 +28,12 @@ keymap.set("", "<leader>wk", "<C-w>k")
 
 keymap.set("", "<leader>b", ":NvimTreeToggle<Return>")
 
+-- copy to system clipboard
+-- keymap.set("", "y", '"+y')
+-- -- paste from system clipboard
+-- keymap.set("", "p", '"+p')
+
+
 -- dropbar (top bar thingie)
 keymap.set("", "<leader>l", function()
   require("dropbar.api").pick(vim.v.count ~= 0 and vim.v.count)

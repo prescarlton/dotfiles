@@ -108,6 +108,12 @@ nvim_lsp.cssmodules_ls.setup({
   },
 })
 
+-- go setup
+nvim_lsp.gopls.setup({
+  cmd = { "gopls", "serve" },
+})
+
+
 vim.diagnostic.config({
   virtual_text = false,
   signs = true,

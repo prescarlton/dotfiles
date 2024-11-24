@@ -8,6 +8,9 @@ vim.opt.relativenumber = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 
+-- remove tildes on empty lines
+vim.opt.fillchars = { eob = " " }
+
 -- make tabs not goofy as hell (spaces r king)
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2

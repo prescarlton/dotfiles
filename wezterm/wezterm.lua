@@ -6,12 +6,12 @@ local config = {}
 config.font = wezterm.font("Monaspace Neon", {
   weight = "Medium",
 })
-config.font_size = 16.5
+config.font_size = 14
 config.harfbuzz_features = { "ss01", "ss02", "ss03", "ss04", "ss05", "ss06", "ss07", "ss08", "calt", "dlig" }
 
 --window styling
-config.window_decorations = "RESIZE"
-config.window_padding = { left = 4, right = 4, top = 0, bottom = 0 }
+-- config.window_decorations = "RESIZE"
+-- config.window_padding = { left = 4, right = 4, top = 0, bottom = 0 }
 
 -- config.color_scheme = "AyuMirage (Gogh)"
 -- config.color_scheme = "OneDark (Gogh)"

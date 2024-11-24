@@ -46,6 +46,7 @@ require("lazy").setup({
   "navarasu/onedark.nvim",
   "folke/tokyonight.nvim",
   "projekt0n/github-nvim-theme",
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 
   "neovim/nvim-lspconfig",
   -- cmp plugins
@@ -155,7 +156,7 @@ require("lazy").setup({
   {
     "nvim-neorg/neorg",
     dependencies = { "luarocks.nvim" },
-    lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+    lazy = false,  -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
     version = "*", -- Pin Neorg to the latest stable release
     config = function()
       require("neorg").setup({
@@ -207,9 +208,32 @@ require("lazy").setup({
   },
   -- light / dark mode based on system
   "cormacrelf/dark-notify",
+  -- GO
+  {
+    "ray-x/go.nvim",
+    dependencies = {
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
+      "nvim-tresitter/nvim-treesitter",
+    },
+    config = function()
+      require("go").setup()
+    end,
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod" },
+    build = ":lua require('go.install').update_all_sync()"
+  }
 })
 
-vim.cmd([[colorscheme github_dark]])
+-- COLORSCHEME
+-- vim.cmd([[colorscheme neon]])
+require("catppuccin").setup({
+  flavour = 'macchiato',
+  transparent_background = true
+})
+
+vim.cmd.colorscheme "catppuccin"
+
 
 -- autotags/autopair config
 local autotag = require("nvim-ts-autotag")

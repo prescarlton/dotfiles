@@ -11,5 +11,5 @@ end
 mason.setup({})
 
 lspconfig.setup({
-  ensure_installed = { "lua_ls", "tailwindcss", "tsserver", "eslint" },
+  ensure_installed = { "lua_ls", "tailwindcss", "ts_ls", "eslint", "gopls" },
 })
