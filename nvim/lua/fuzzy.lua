@@ -73,7 +73,10 @@ vim.keymap.set("n", "<leader>ff", function()
       "--glob=!**/node_modules/*",
       "--glob=!**/build/*",
       "--glob=!**/dist/*",
+      "--glob=!**/.output/*",
       "--glob=!**/.next/*",
+      "--glob=!**/ios/*",
+      "--glob=!**/android/*",
     },
   })
 end)
@@ -88,6 +91,9 @@ vim.keymap.set("n", "<leader>fg", function()
       "--glob=!**/node_modules/*",
       "--glob=!**/build/*",
       "--glob=!**/dist/*",
+      "--glob=!**/.output/*",
+      "--glob=!**/ios/*",
+      "--glob=!**/android/*",
       "--glob=**/.env$",
       "--glob=**/.env.*$",
       "--glob=**/.env.*.local$",

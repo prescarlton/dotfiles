@@ -21,10 +21,25 @@ nvim_lsp.eslint.setup({
   on_attach = function(client, bufnr)
     vim.api.nvim_create_autocmd("BufWritePre", {
       buffer = bufnr,
-      command = "EslintFixAll",
+      callback = function()
+        -- Own the whole JS/TS save pipeline here so it runs in a fixed order:
+        -- 1. ESLint autofix (sorts imports via simple-import-sort, synchronous) …
+        vim.cmd("EslintFixAll")
+        -- 2. … then Prettier, which preserves the now-sorted import order.
+        -- conform's format_on_save deliberately skips these filetypes so the two
+        -- don't race on BufWritePre and drop the ESLint edit on a version mismatch.
+        require("conform").format({ bufnr = bufnr, lsp_format = "fallback", timeout_ms = 500 })
+      end,
     })
   end,
   cmd = { "vscode-eslint-language-server", "--stdio" },
+  settings = {
+    -- monorepo: resolve each app's eslint config + node_modules separately
+    workingDirectories = { mode = "auto" },
+    -- ESLint 8.57 server loads the flat-config API only with this opt-in;
+    -- required so eslint.config.js/.mjs are read (drop once on ESLint >= 10)
+    experimental = { useFlatConfig = true },
+  },
   filter = function(diag)
     return not (
       (string.find(diag.code or "", "typescript-eslint", 1, true))
@@ -38,6 +53,16 @@ nvim_lsp.prismals.setup({})
 
 -- tailwind setup
 nvim_lsp.tailwindcss.setup({})
+-- biome setup (diagnostics only; conform does the formatting). Prefer the
+-- project's own biome so the editor matches the CLI version.
+nvim_lsp.biome.setup({
+  on_new_config = function(config, root)
+    local local_bin = root .. "/node_modules/.bin/biome"
+    if vim.uv.fs_stat(local_bin) then
+      config.cmd = { local_bin, "lsp-proxy" }
+    end
+  end,
+})
 -- lua setup
 nvim_lsp.lua_ls.setup({
   Lua = {
@@ -113,7 +138,6 @@ nvim_lsp.gopls.setup({
   cmd = { "gopls", "serve" },
 })
 
-
 vim.diagnostic.config({
   virtual_text = false,
   signs = true,
@@ -122,7 +146,7 @@ vim.diagnostic.config({
   severity_sort = false,
   float = {
     border = "rounded",
-    source = "always",
+    -- source = "always",
     header = "",
     prefix = "",
   },
@@ -165,3 +189,23 @@ end, opts)
 vim.keymap.set("", "<leader>h", "<Cmd>Lspsaga hover_doc<CR>", opts)
 -- floating terminal that looks cute af
 vim.keymap.set("", "<leader>tf", "<Cmd>Lspsaga term_toggle<CR>", opts)
+
+-- try using nvim notify instead of ugly popups
+
+-- local notify = require("notify")
+-- vim.lsp.handlers["window/showMessage"] = function(_, result, ctx)
+--   local client = vim.lsp.get_client_by_id(ctx.client_id)
+--   local lvl = ({
+--     "ERROR",
+--     "WARN",
+--     "INFO",
+--     "DEBUG",
+--   })[result.type]
+--   notify({ result.message }, lvl, {
+--     title = "LSP | " .. client.name,
+--     timeout = 2000,
+--     keep = function()
+--       return lvl == "ERROR" or lvl == "WARN"
+--     end,
+--   })
+-- end

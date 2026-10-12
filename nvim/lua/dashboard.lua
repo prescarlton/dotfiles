@@ -3,7 +3,7 @@ local base_theme = require("alpha.themes.dashboard")
 
 -- slam that header together
 base_theme.section.header.val = {
-  "deez nuts",
+  "nvim",
 }
 
 -- setup menu

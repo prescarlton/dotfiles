@@ -22,6 +22,8 @@ require("lazy").setup({
         indent = { enable = true },
         ensure_installed = {
           "tsx",
+          "typescript",
+          "javascript",
           "toml",
           "fish",
           "php",
@@ -32,6 +34,7 @@ require("lazy").setup({
           "html",
           "lua",
           "scss",
+          "graphql",
         },
         autotag = { enable = true },
       })
@@ -47,6 +50,7 @@ require("lazy").setup({
   "folke/tokyonight.nvim",
   "projekt0n/github-nvim-theme",
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  { "nuvic/flexoki-nvim", name = "flexoki" },
 
   "neovim/nvim-lspconfig",
   -- cmp plugins
@@ -64,7 +68,8 @@ require("lazy").setup({
   -- "L3MON4D3/LuaSnip",
   "glepnir/lspsaga.nvim",
 
-  "jose-elias-alvarez/null-ls.nvim",
+  -- "jose-elias-alvarez/null-ls.nvim",
+  "nvimtools/none-ls.nvim",
   "MunifTanjim/prettier.nvim",
 
   "norcalli/nvim-colorizer.lua",
@@ -129,7 +134,7 @@ require("lazy").setup({
   "MunifTanjim/nui.nvim",
   -- noice (cute command popups)
   "folke/noice.nvim",
-
+  -- "rcarriga/nvim-notify",
   -- rust setup
   "simrat39/rust-tools.nvim",
 
@@ -156,7 +161,7 @@ require("lazy").setup({
   {
     "nvim-neorg/neorg",
     dependencies = { "luarocks.nvim" },
-    lazy = false,  -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+    lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
     version = "*", -- Pin Neorg to the latest stable release
     config = function()
       require("neorg").setup({
@@ -186,54 +191,54 @@ require("lazy").setup({
     build = "make install_jsregexp",
   },
   {
-    "smoka7/multicursors.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "smoka7/hydra.nvim",
-    },
-    opts = {},
-    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
-    keys = {
-      {
-        mode = { "v", "n" },
-        "<Leader>m",
-        "<cmd>MCstart<cr>",
-        desc = "Create a selection for selected text or word under the cursor",
-      },
-    },
-  },
-  {
     -- perhaps cmp for sass variables
     "pontusk/cmp-sass-variables",
   },
   -- light / dark mode based on system
   "cormacrelf/dark-notify",
-  -- GO
+  -- formatting
   {
-    "ray-x/go.nvim",
+    "stevearc/conform.nvim",
+    opts = {},
+  },
+  {
+    "yetone/avante.nvim",
     dependencies = {
-      "ray-x/guihua.lua",
-      "neovim/nvim-lspconfig",
-      "nvim-tresitter/nvim-treesitter",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-lua/plenary.nvim",
+      "echasnovski/mini.pick",
     },
-    config = function()
-      require("go").setup()
-    end,
-    event = { "CmdlineEnter" },
-    ft = { "go", "gomod" },
-    build = ":lua require('go.install').update_all_sync()"
+  },
+  -- oml we're actually writing in c# these days (9/27/25), we're making a video game
+  {
+    "iabdelkareem/csharp.nvim",
+    dependencies = {
+    "williamboman/mason.nvim", -- Required, automatically installs omnisharp
+    "mfussenegger/nvim-dap",
+    "Tastyep/structlog.nvim", -- Optional, but highly recommended for debugging
+  },
+  config = function ()
+      require("mason").setup() -- Mason setup must run before csharp, only if you want to use omnisharp
+      require("csharp").setup()
+  end
   }
 })
 
 -- COLORSCHEME
--- vim.cmd([[colorscheme neon]])
-require("catppuccin").setup({
-  flavour = 'macchiato',
-  transparent_background = true
+
+require("flexoki").setup({
+  dim_inactive_windows = false,
+  extend_background_behind_borders = false,
+  styles = {
+    bold = true,
+    italic = true,
+    transparency = true,
+  }
 })
+vim.cmd.colorscheme("flexoki")
 
-vim.cmd.colorscheme "catppuccin"
-
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
 -- autotags/autopair config
 local autotag = require("nvim-ts-autotag")
